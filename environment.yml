@@ -1,0 +1,38 @@
+channels:
+  - conda-forge
+dependencies:
+  - ablang
+  - bioconda::anarci # for ImmuneBuilder
+  - biopython
+  - einops
+  - hdbscan
+  - ipython
+  - joblib
+  - numpy=1
+  - matplotlib
+  - multiprocess
+  - openmm # for ImmuneBuilder
+  - packaging
+  - pandas=1
+  - pdbfixer # for ImmuneBuilder
+  - pip
+  - psutil
+  - pytables
+  - pytorch
+  - torch-geometric
+  - ray-air=2
+  - ray-tune=2
+  - readline
+  - requests
+  - scikit-learn
+  - scipy
+  - scikit-learn
+  - sympy=1.13 # for ImmuneBuilder
+  - tabulate
+  - tensorboard
+  - tensorboardx
+  - tensorflow
+  - tqdm
+  - transformers
+  - pip:
+    - ImmuneBuilder

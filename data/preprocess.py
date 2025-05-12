@@ -637,7 +637,7 @@ def animate_plot3 (i):
     lngth = len(cdr3s_dist_matrix)
     cdr3s_dist_matrix = numpy.pad(cdr3s_dist_matrix, [(0, 2*cdr3_PAD - lngth), (0, 2*cdr3_PAD - lngth)], mode='constant', constant_values=0)
 
-    numpy.save('cdr3s_'+ name, cdr3s_dist_matrix)st
+    numpy.save('cdr3s_'+ name, cdr3s_dist_matrix)
     
     return cax
 

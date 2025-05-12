@@ -49,6 +49,13 @@ def openmm_implicit(pdb, output= 'mAb.pdb', steps = 50000, T = 300.0, C = 0.1):
     simulation.context.setPositions(pdb.positions)
     simulation.minimizeEnergy()
     # extract set of conformations from simulation
+
+    simulation.reporters.append(PDBReporter('openmm_' + output, 1000))
+    simulation.reporters.append(StateDataReporter(stdout, 1000, step=True,
+                potentialEnergy=True, temperature=True))
+    simulation.step(steps)
+    return
+
     # create list of steps spaced by 1000 between 0 and steps
     all_steps = np.arange(0, steps, 1000)
     for s in all_steps:

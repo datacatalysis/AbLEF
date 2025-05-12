@@ -86,24 +86,33 @@ def reading_folder_pdbs(folder):
     all_molecules = []
     atom_seq = []
     files = [f for f in listdir(folder) if isfile(join(folder, f))]
-    for file in files:
-        assert file.endswith('.pdb'), "All files in folder should be in pdb-format"
+
+    def add_molecule(file: str, modelindex: int) -> Molecule:
         molecule = Molecule()
         molecule.filename = file
         molecule.full_text = ''
         atom_seq.append([])
+        molecule.name = f"{file}:{modelindex}"
+        all_molecules.append(molecule)
+        return molecule
+
+    for file in files:
+        assert file.endswith('.pdb'), "All files in folder should be in pdb-format"
+        molecule: Molecule | None = None
         with open(os.path.join(folder, file), 'r') as f:
             lines = f.readlines()
             for line in lines:
                 if line.startswith("ATOM") and line.find(" H") == -1:
+                    if molecule is None:
+                        molecule = add_molecule(file, len(all_molecules))
                     molecule.full_text += line
                     coords = [float(line[30:38]), float(line[38:46]), float(line[46:54])]
                     atom_seq[-1].append(name_of_at(line))
                     name = name_of_at(line)
                     atom = Atom(name, coords)
                     molecule.add_atom(atom)
-        molecule.name = file
-        all_molecules.append(molecule)
+                elif line.startswith("MODEL") :
+                    molecule = None
     lens_of_mols = [len(mol.atoms) for mol in all_molecules]
     assert all(x == lens_of_mols[0] for x in lens_of_mols), "Molecular lengths shoud be the same"
     if not np.all(np.array(atom_seq) == atom_seq[0]):
